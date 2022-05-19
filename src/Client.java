@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class Client {
-    //static Logger log = Logger.getLogger(Client.class.getName());
+    static Logger log = Logger.getLogger(Client.class.getName());
 
     private Socket socket;
     private BufferedReader bufferedReader;
@@ -12,6 +12,7 @@ public class Client {
     private String username;
 
     public Client(Socket socket, String username) {
+        log.info("New client");
         try {
             this.socket = socket;
             this.username = username;

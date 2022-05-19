@@ -1,9 +1,11 @@
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class ClientHandler implements Runnable {
 
+    static Logger log = Logger.getLogger(ClientHandler.class.getName());
     // ArrayList to keep track of all the threads
     // so it's possible to loop through and
     // send messages to each client
@@ -16,7 +18,6 @@ public class ClientHandler implements Runnable {
     public ClientHandler(Socket socket) {
         try {
             this.socket = socket;
-
             this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())); // OutputStream to send msg
             this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream())); // InputStream to read msg
             this.clientUsername = bufferedReader.readLine();
@@ -64,8 +65,6 @@ public class ClientHandler implements Runnable {
     }
 
     public void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
-        clientHandlers.remove(this);
-        broadcastMessage("SERVER: " + clientUsername + " has left the chat!");
         try {
             if (bufferedReader != null) {
                 bufferedReader.close();
