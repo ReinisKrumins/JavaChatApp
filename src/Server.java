@@ -18,10 +18,8 @@ public class Server {
             //Server will run for as long as server socket is open
             while (!serverSocket.isClosed()) {
                 Socket socket = serverSocket.accept(); //
-                // System.out.println("A new client has connected");
+                System.out.println("A new client has connected");
                 ClientHandler clientHandler = new ClientHandler(socket);
-                // Will put a new connection in a different thread
-                //int threadCounter = 0;
                 Thread thread = new Thread(clientHandler);
                 thread.start();
             }

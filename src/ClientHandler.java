@@ -30,14 +30,11 @@ public class ClientHandler implements Runnable {
     @Override
     public void run() {
         String messageFromClient;
-        // Continue to listen for messages while a connection with the client is still established.
         while (socket.isConnected()) {
             try {
-                // Read what the client sent and then send it to every other client.
                 messageFromClient = bufferedReader.readLine();
                 broadcastMessage(messageFromClient);
             } catch (IOException e) {
-                // Close everything gracefully.
                 closeEverything(socket, bufferedReader, bufferedWriter);
                 break;
             }
@@ -46,14 +43,12 @@ public class ClientHandler implements Runnable {
     public void broadcastMessage(String messageToSend) {
         for (ClientHandler clientHandler : clientHandlers) {
             try {
-                // You don't want to broadcast the message to the user who sent it.
                 if (!clientHandler.clientUsername.equals(clientUsername)) {
                     clientHandler.bufferedWriter.write(messageToSend);
                     clientHandler.bufferedWriter.newLine();
                     clientHandler.bufferedWriter.flush();
                 }
             } catch (IOException e) {
-                // Gracefully close everything.
                 closeEverything(socket, bufferedReader, bufferedWriter);
             }
         }
